@@ -1,19 +1,22 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:shop/data/dummy_data.dart';
+import 'package:provider/provider.dart';
 
 import 'package:shop/models/product.model.dart';
 
 import '../components/product_item.dart';
+import '../models/product_list.dart';
 
 class ProductOverviewPage extends StatelessWidget {
-  ProductOverviewPage({
+  const ProductOverviewPage({
     Key? key,
   }) : super(key: key);
-  final List<Product> loadedProducts = dummyProducts;
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ProductList>(context);
+    final List<Product> loadedProducts = provider.items;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Minha loja'),
