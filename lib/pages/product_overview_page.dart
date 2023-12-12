@@ -1,18 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shop/models/product_list.dart';
 import '../components/product_grid.dart';
 
-class ProductOverviewPage extends StatelessWidget {
+class ProductOverviewPage extends StatefulWidget {
   const ProductOverviewPage({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<ProductOverviewPage> createState() => _ProductOverviewPageState();
+}
+
+class _ProductOverviewPageState extends State<ProductOverviewPage> {
+  bool _showFavoriteOnly = false;
+  @override
   Widget build(BuildContext context) {
-    final provider =
-        Provider.of<ProductList>(context); //instancia do ProductList
     return Scaffold(
       appBar: AppBar(
         title: const Text('Minha loja'),
@@ -30,19 +32,20 @@ class ProductOverviewPage extends StatelessWidget {
               ),
             ],
             onSelected: (FilterOptions selectedvalue) {
-              if (selectedvalue == FilterOptions.favoritos) {
-                provider
-                    .showOnlyFavorite(); //funcao do product_list q retorna favorite caso true
-              } else {
-                provider.showAll();
-              }
+              setState(() {
+                if (selectedvalue == FilterOptions.favoritos) {
+                  _showFavoriteOnly = true;
+                  //funcao do product_list q retorna favorite caso true
+                } else {
+                  _showFavoriteOnly = false;
+                }
+              });
             },
           )
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(10),
-        child: ProductGrid(),
+      body: ProductGrid(
+        _showFavoriteOnly,
       ),
     );
   }
