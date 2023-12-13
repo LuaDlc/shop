@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/components/badgee.dart';
 import '../components/product_grid.dart';
+import '../models/cart.dart';
 
 class ProductOverviewPage extends StatefulWidget {
   const ProductOverviewPage({
@@ -41,7 +44,14 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
                 }
               });
             },
-          )
+          ),
+          Consumer<Cart>(
+              child: IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
+              builder: (ctx, cart, child) => Badgee(
+                    value: cart.itemsCount.toString(),
+                    child: child!,
+                  ))
         ],
       ),
       body: ProductGrid(
