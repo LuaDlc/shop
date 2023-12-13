@@ -47,7 +47,10 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
           ),
           Consumer<Cart>(
               child: IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/cart-page');
+                  },
+                  icon: const Icon(Icons.shopping_cart)),
               builder: (ctx, cart, child) => Badgee(
                     value: cart.itemsCount.toString(),
                     child: child!,
