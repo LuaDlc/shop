@@ -1,9 +1,7 @@
 import 'dart:math';
-
-import 'package:shop/models/product.model.dart';
-
-import 'cart_item.dart';
 import 'package:flutter/material.dart';
+import 'package:shop/models/cart_item.dart';
+import 'package:shop/models/product.model.dart';
 
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};
@@ -13,7 +11,7 @@ class Cart with ChangeNotifier {
   }
 
   int get itemsCount {
-    return _items.length;
+    return items.length;
   }
 
   double get totalAmount {
@@ -24,6 +22,33 @@ class Cart with ChangeNotifier {
     return total;
   }
 
+  void addItem(Product product) {
+    if (_items.containsKey(product.id)) {
+      _items.update(
+        product.id,
+        (existingItem) => CartItem(
+          id: existingItem.id,
+          productId: existingItem.productId,
+          name: existingItem.name,
+          quantity: existingItem.quantity + 1,
+          price: existingItem.price,
+        ),
+      );
+    } else {
+      _items.putIfAbsent(
+        product.id,
+        () => CartItem(
+          id: Random().nextDouble().toString(),
+          productId: product.id,
+          name: product.name!,
+          quantity: 1,
+          price: product.price,
+        ),
+      );
+    }
+    notifyListeners();
+  }
+
   void removeItem(String productId) {
     _items.remove(productId);
     notifyListeners();
@@ -31,31 +56,6 @@ class Cart with ChangeNotifier {
 
   void clear() {
     _items = {};
-    notifyListeners();
-  }
-
-  void addItem(Product product) {
-    if (_items.containsKey(product.id)) {
-      _items.update(
-        product.id,
-        (existingItem) => CartItem(
-            id: existingItem.id,
-            productId: existingItem.id,
-            name: existingItem.name,
-            quantity: existingItem.quantity,
-            price: existingItem.price),
-      );
-    } else {
-      _items.putIfAbsent(
-        product.id,
-        () => CartItem(
-            id: Random().nextDouble().toString(),
-            productId: product.id,
-            name: product.name!,
-            quantity: 1,
-            price: product.price),
-      );
-    }
     notifyListeners();
   }
 }

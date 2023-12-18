@@ -20,7 +20,7 @@ class ProductItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         footer: GridTileBar(
-            backgroundColor: Colors.black26,
+            backgroundColor: Colors.black38,
             leading: IconButton(
                 onPressed: () {
                   product.toggleFavorite();
@@ -41,7 +41,7 @@ class ProductItem extends StatelessWidget {
                 },
                 icon: Icon(
                   Icons.shopping_cart,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: Theme.of(context).hintColor,
                 ))),
         child: GestureDetector(
           onTap: () {

@@ -44,6 +44,6 @@ class MyApp extends StatelessWidget {
   }
 }
 /*
-cartItem
+cartItem componentes
 cartPage
 */
