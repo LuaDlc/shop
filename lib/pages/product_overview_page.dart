@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/components/app_drawer.dart';
 import 'package:shop/components/badgee.dart';
 import '../components/product_grid.dart';
 import '../models/cart.dart';
@@ -64,6 +65,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
       body: ProductGrid(
         _showFavoriteOnly,
       ),
+      drawer: const AppDrawer(),
     );
   }
 }
