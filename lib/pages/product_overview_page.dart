@@ -27,7 +27,10 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
         ),
         actions: [
           PopupMenuButton(
-            icon: const Icon(Icons.more_vert_sharp),
+            icon: const Icon(
+              Icons.more_vert_sharp,
+              color: Colors.white,
+            ),
             itemBuilder: (_) => [
               const PopupMenuItem(
                 value: FilterOptions.favoritos,
@@ -54,7 +57,10 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
                 onPressed: () {
                   Navigator.of(context).pushNamed('/cart-page');
                 },
-                icon: const Icon(Icons.shopping_cart),
+                icon: const Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                ),
               ),
               builder: (ctx, cart, child) => Badgee(
                     value: cart.itemsCount.toString(),

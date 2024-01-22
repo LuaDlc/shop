@@ -14,7 +14,10 @@ class CartPage extends StatelessWidget {
     final items = cart.items.values.toList();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Meu Carrinho'),
+        title: const Text(
+          'Meu Carrinho',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Column(
         children: [
@@ -38,7 +41,7 @@ class CartPage extends StatelessWidget {
                   Chip(
                     backgroundColor: Theme.of(context).colorScheme.onBackground,
                     label: Text(
-                      'R\$${cart.totalAmount}',
+                      'R\$${cart.totalAmount.toStringAsFixed(2)}',
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),
@@ -56,8 +59,9 @@ class CartPage extends StatelessWidget {
           ),
           Expanded(
               child: ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (ctx, i) => CartItemWidget(cartItem: items[i])))
+            itemCount: items.length,
+            itemBuilder: (ctx, i) => CartItemWidget(cartItem: items[i]),
+          ))
         ],
       ),
     );
