@@ -21,16 +21,18 @@ class ProductGridItem extends StatelessWidget {
       child: GridTile(
         footer: GridTileBar(
             backgroundColor: Colors.black38,
-            leading: IconButton(
-                onPressed: () {
-                  product.toggleFavorite();
-                },
-                icon: Icon(
-                  product.isFavorite
-                      ? Icons.favorite
-                      : Icons.favorite_border_outlined,
-                  color: Theme.of(context).hintColor,
-                )),
+            leading: Consumer<Product>(
+              builder: (ctx, product, _) => IconButton(
+                  onPressed: () {
+                    product.toggleFavorite();
+                  },
+                  icon: Icon(
+                    product.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
+                    color: Theme.of(context).hintColor,
+                  )),
+            ),
             title: Text(
               product.name!,
               textAlign: TextAlign.center,
@@ -66,3 +68,5 @@ class ProductGridItem extends StatelessWidget {
     );
   }
 }
+// productlist 
+//productform page

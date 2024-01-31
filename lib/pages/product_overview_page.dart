@@ -55,7 +55,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
           Consumer<Cart>(
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/cart-page');
+                  Navigator.of(context).pushNamed('/cart');
                 },
                 icon: const Icon(
                   Icons.shopping_cart,

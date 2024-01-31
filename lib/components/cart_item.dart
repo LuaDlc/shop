@@ -8,14 +8,14 @@ import '../models/cart_item.dart';
 class CartItemWidget extends StatelessWidget {
   const CartItemWidget({
     Key? key,
-    required this.cartItem,
+    this.cartItem,
   }) : super(key: key);
-  final CartItem cartItem;
+  final CartItem? cartItem;
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(cartItem.id),
+      key: ValueKey(cartItem!.id),
       direction: DismissDirection.endToStart,
       background: Container(
         color: Theme.of(context).hintColor,
@@ -31,27 +31,27 @@ class CartItemWidget extends StatelessWidget {
       confirmDismiss: (_) {
         return showDialog<bool>(
             context: context,
-            builder: ((context) => AlertDialog(
+            builder: (ctx) => AlertDialog(
                   title: const Text('Tem certeza?'),
                   content: const Text('Quer remover o item do carrinho?'),
                   actions: [
                     TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop(false);
+                          Navigator.of(ctx).pop(false);
                         },
                         child: const Text('Não')),
                     TextButton(
                       child: const Text('Sim'),
                       onPressed: () {
-                        Navigator.of(context).pop(true);
+                        Navigator.of(ctx).pop(true);
                       },
                     ),
                   ],
-                )));
+                ));
       },
       onDismissed: (_) {
         Provider.of<Cart>(context, listen: false)
-            .removeItem(cartItem.productId);
+            .removeItem(cartItem!.productId);
       },
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
@@ -64,13 +64,14 @@ class CartItemWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: FittedBox(
-                  child: Text('${cartItem.price}'),
+                  child: Text('${cartItem!.price}'),
                 ),
               ),
             ),
-            title: Text(cartItem.name),
-            subtitle: Text('Total: R\$ ${cartItem.price * cartItem.quantity}'),
-            trailing: Text('${cartItem.quantity}x'),
+            title: Text(cartItem!.name),
+            subtitle:
+                Text('Total: R\$ ${cartItem!.price * cartItem!.quantity}'),
+            trailing: Text('${cartItem!.quantity}x'),
           ),
         ),
       ),
