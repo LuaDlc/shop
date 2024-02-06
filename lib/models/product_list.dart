@@ -19,7 +19,7 @@ class ProductList with ChangeNotifier {
     return _items.length;
   }
 
-  void saveProduct(Map<String, Object> data) {
+  Future<void> saveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null;
 
     final product = Product(
@@ -31,13 +31,13 @@ class ProductList with ChangeNotifier {
     );
 
     if (hasId) {
-      updateProdut(product);
+      return updateProdut(product); //return pois ou um ou outro dentro do if
     } else {
-      addProduct(product);
+      return addProduct(product);
     }
   }
 
-  void addProduct(Product product) {
+  Future<void> addProduct(Product product) {
     final future = http.post(Uri.parse('$_baseUrl/products.json'),
         body: jsonEncode(
           {
@@ -49,7 +49,8 @@ class ProductList with ChangeNotifier {
             "isFavorite": product.isFavorite,
           },
         ));
-    future.then((response) {
+    return future.then<void>((response) {
+      //agora o future vai retornar esse then
       final id = jsonDecode(response.body)['name'];
       print(jsonDecode(
           response.body)); //traz o que vem dentro da resposta...sera acessado
@@ -62,18 +63,18 @@ class ProductList with ChangeNotifier {
         imageUrl: product.imageUrl,
         isFavorite: product.isFavorite,
       )); //somente adiciona depois que a resposta do firebase chega aqui
+      notifyListeners();
     });
-
-    notifyListeners();
   }
 
-  void updateProdut(Product product) {
+  Future<void> updateProdut(Product product) {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
       _items[index] = product;
       notifyListeners();
     }
+    return Future.value();
   }
 
   void removeProduct(Product product) {
