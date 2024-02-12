@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:shop/data/dummy_data.dart';
-import 'package:shop/models/product.model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop/models/product.model.dart';
+import 'package:shop/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
-  final _baseUrl = 'https://shop-lua-default-rtdb.firebaseio.com';
-
-  final List<Product> _items = dummyProducts;
+  final _url = Constants.productBaseUrl;
+  final List<Product> _items = [];
 
   List<Product> get items => [..._items];
   List<Product> get favoriteItems =>
@@ -17,6 +15,27 @@ class ProductList with ChangeNotifier {
 
   int get itemsCount {
     return _items.length;
+  }
+
+  Future<void> loadProducts() async {
+    _items.clear();
+
+    final response = await http.get(Uri.parse(_url));
+    if (response.body == 'null') return;
+    Map<String, dynamic> data = jsonDecode(response.body);
+    data.forEach((productId, productData) {
+      _items.add(
+        Product(
+          id: productId,
+          name: productData['name'],
+          description: productData['description'],
+          price: productData['price'],
+          imageUrl: productData['imageUrl'],
+          isFavorite: productData['isFavorite'],
+        ),
+      );
+    });
+    notifyListeners();
   }
 
   Future<void> saveProduct(Map<String, Object> data) {
@@ -31,74 +50,55 @@ class ProductList with ChangeNotifier {
     );
 
     if (hasId) {
-      return updateProdut(product); //return pois ou um ou outro dentro do if
+      return updateProduct(product);
     } else {
       return addProduct(product);
     }
   }
 
-  Future<void> addProduct(Product product) {
-    final future = http.post(Uri.parse('$_baseUrl/products.json'),
-        body: jsonEncode(
-          {
-            //nao tem o id pois estou incluindo um novo
-            "name": product.name,
-            "description": product.description,
-            "price": product.price,
-            "imageUrl": product.imageUrl,
-            "isFavorite": product.isFavorite,
-          },
-        ));
-    return future.then<void>((response) {
-      //agora o future vai retornar esse then
-      final id = jsonDecode(response.body)['name'];
-      print(jsonDecode(
-          response.body)); //traz o que vem dentro da resposta...sera acessado
-      _items.add(Product(
-        //produto gerado atraves do firebase com o id[name]
-        id: id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        imageUrl: product.imageUrl,
-        isFavorite: product.isFavorite,
-      )); //somente adiciona depois que a resposta do firebase chega aqui
-      notifyListeners();
-    });
+  Future<void> addProduct(Product product) async {
+    final response = await http.post(
+      Uri.parse(_url),
+      body: jsonEncode(
+        {
+          "name": product.name,
+          "description": product.description,
+          "price": product.price,
+          "imageUrl": product.imageUrl,
+          "isFavorite": product.isFavorite,
+        },
+      ),
+    );
+
+    final id = jsonDecode(response.body)['name'];
+    _items.add(Product(
+      id: id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      isFavorite: product.isFavorite,
+    ));
+    notifyListeners();
   }
 
-  Future<void> updateProdut(Product product) {
+  Future<void> updateProduct(Product product) {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
       _items[index] = product;
       notifyListeners();
     }
+
     return Future.value();
   }
 
   void removeProduct(Product product) {
     int index = _items.indexWhere((p) => p.id == product.id);
+
     if (index >= 0) {
       _items.removeWhere((p) => p.id == product.id);
+      notifyListeners();
     }
   }
 }
-// List<Product> get items {
-//     if (_showFavoriteOnly) {
-//       return _items.where((prod) => prod.isFavorite).toList();
-//     }
-//     return _items;
-//   }
-
-//   bool _showFavoriteOnly = false;
-
-//   void showOnlyFavorite() {
-//     _showFavoriteOnly = true;
-//     notifyListeners();
-//   }
-
-//   void showAll() {
-//     _showFavoriteOnly = false;
-//     notifyListeners(); //serve como um setState ou um observer
-//   }

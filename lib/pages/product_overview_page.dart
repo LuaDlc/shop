@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/components/app_drawer.dart';
 import 'package:shop/components/badgee.dart';
+import 'package:shop/models/product_list.dart';
+import 'package:shop/utils/app_routes.dart';
 import '../components/product_grid.dart';
 import '../models/cart.dart';
 
@@ -17,6 +19,21 @@ class ProductOverviewPage extends StatefulWidget {
 
 class _ProductOverviewPageState extends State<ProductOverviewPage> {
   bool _showFavoriteOnly = false;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<ProductList>(
+      context,
+      listen: false,
+    ).loadProducts().then((value) => (value) {
+          setState(() {
+            _isLoading = false;
+          });
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +51,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
             itemBuilder: (_) => [
               const PopupMenuItem(
                 value: FilterOptions.favoritos,
-                child: Text('favoritos'),
+                child: Text('Favoritos'),
               ),
               const PopupMenuItem(
                 value: FilterOptions.all, //apenas o enum do popup
@@ -55,7 +72,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
           Consumer<Cart>(
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/cart');
+                  Navigator.of(context).pushNamed(AppRoutes.cart);
                 },
                 icon: const Icon(
                   Icons.shopping_cart,

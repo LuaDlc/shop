@@ -70,7 +70,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     return isValidUrl && endsWithFile;
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -83,28 +83,33 @@ class _ProductFormPageState extends State<ProductFormPage> {
       _isLoading = true;
     });
 
-    Provider.of<ProductList>(
-      context,
-      listen: false,
-    ).saveProduct(_formData).catchError((error) {
-      return showDialog<void>(
-          //tratando o erro antes de salvar
-          context: (context),
-          builder: (ctx) => AlertDialog(
-                title: const Text('Ocorreu um erro'),
-                content: const Text(
-                    'Tente novamente mais tarde!'), // ao inves de: Text(error.toString()) par nao exibir info delicada ao usuario,
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Ok'))
-                ],
-              ));
-    }).then((value) {
+    try {
+      await Provider.of<ProductList>(
+        context,
+        listen: false,
+      ).saveProduct(_formData);
+      if (context.mounted) Navigator.of(context).pop();
+
+      //volta pra tela somente depois que salva, por isso o then
+    } catch (error) {
+      if (context.mounted) {
+        await showDialog<void>(
+            //tratando o erro antes de salvar
+            context: (context),
+            builder: (ctx) => AlertDialog(
+                  title: const Text('Ocorreu um erro'),
+                  content: const Text(
+                      'Tente novamente mais tarde!'), // ao inves de: Text(error.toString()) par nao exibir info delicada ao usuario,
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Ok'))
+                  ],
+                ));
+      }
+    } finally {
       setState(() => _isLoading = false);
-      Navigator.of(context)
-          .pop(); //volta pra tela somente depois que salva, por isso o then
-    });
+    }
   }
 
   @override
