@@ -96,3 +96,5 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
 }
 
 enum FilterOptions { favoritos, all }
+
+//product list

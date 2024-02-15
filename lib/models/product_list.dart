@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop/exceptions/http_exception.dart';
 import 'package:shop/models/product.model.dart';
 import 'package:shop/utils/constants.dart';
 
@@ -104,12 +105,30 @@ class ProductList with ChangeNotifier {
     }
   }
 
-  void removeProduct(Product product) {
+  Future<void> removeProduct(Product product) async {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-      _items.removeWhere((p) => p.id == product.id);
+      final product =
+          _items[index]; //pega o item a partir do index e armazena no product
+      _items.remove(product); //remove diretamente o product/index
+      //exclusao otimista, exclui localmente primeiro para o usuario
       notifyListeners();
+
+      final response = await http.delete(
+        Uri.parse('$_baseUrl/${product.id}.json'),
+      ); //depois no banco, caso de problema, traz feedback
+      if (response.statusCode >= 400) {
+        //erros da fmailia dos 400 é um erro do cliente e 500 lado do servidor, nesses casos
+        //ha um problema de requisição
+        _items.insert(
+            index, product); //reinsere o item pelo index e passando o produto
+        notifyListeners();
+        throw HttpException(
+            msg: 'Não foi possível excluir o produto.',
+            statusCode: response
+                .statusCode); //tratar essa exceçao dentro do product item
+      }
     }
   }
 }
