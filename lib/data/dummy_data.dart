@@ -1,4 +1,4 @@
-import '../models/product.model.dart';
+import '../models/product.dart';
 
 final dummyProducts = [
   Product(

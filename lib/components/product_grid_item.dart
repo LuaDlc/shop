@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/utils/app_routes.dart';
 
 import '../models/cart.dart';
-import '../models/product.model.dart';
+import '../models/product.dart';
 
 class ProductGridItem extends StatelessWidget {
   const ProductGridItem({
