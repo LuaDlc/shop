@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatelessWidget {
@@ -14,13 +16,48 @@ class AuthPage extends StatelessWidget {
             Color.fromRGBO(255, 188, 117, 0.9)
           ])),
         ),
-        const SizedBox(
+        SizedBox(
           width: double.infinity,
           child: Column(
-            children: [],
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+                transform: Matrix4.rotationZ(-8 * pi / 180)
+                  ..translate(-10.0), //cascade operator
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.deepOrange.shade900,
+                    boxShadow: const [
+                      BoxShadow(
+                          blurRadius: 8,
+                          color: Colors.black26,
+                          offset: Offset(0, 2))
+                    ]),
+                child: const Text(
+                  'Minha Loja',
+                  style: TextStyle(
+                      fontSize: 45, fontFamily: 'Anton', color: Colors.white),
+                ),
+              )
+            ],
           ),
         )
       ]),
     );
   }
 }
+// Exemplo usado para explicar o cascade operator
+// void main() {
+//   List<int> a = [1, 2, 3];
+//   a.add(4);
+//   a.add(5);
+//   a.add(6);
+
+//   // cascade operator!
+//   a..add(7)..add(8)..add(9);
+
+//   print(a);
+// }

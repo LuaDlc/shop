@@ -32,3 +32,10 @@ A new Flutter project.
 - Exclusão otimista
 - Armazenamento de pedidos no Firebase
 
+
+
+
+** Autenticação com Firebase **
+- Tela auth usando cascaste operator
+
+
