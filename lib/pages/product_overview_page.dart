@@ -86,7 +86,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
         ],
       ),
       body: _isLoading
-          ? const CircularProgressIndicator()
+          ? const Center(child: CircularProgressIndicator())
           : ProductGrid(
               _showFavoriteOnly,
             ),

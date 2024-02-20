@@ -34,7 +34,7 @@ class ProductGridItem extends StatelessWidget {
                   )),
             ),
             title: Text(
-              product.name!,
+              product.name,
               textAlign: TextAlign.center,
             ),
             trailing: IconButton(

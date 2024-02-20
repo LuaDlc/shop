@@ -18,7 +18,7 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Loja'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
-                AppRoutes.home,
+                AppRoutes.auth,
               );
             },
           ),
