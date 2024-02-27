@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/auth.dart';
 
 enum AuthMode { signup, login }
 
@@ -32,7 +34,7 @@ class _AuthFormState extends State<AuthForm> {
     });
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -40,15 +42,22 @@ class _AuthFormState extends State<AuthForm> {
     }
 
     setState(() => _isLoading = true);
-
-    _formKey.currentState?.save();
+    Auth auth = Provider.of(context, listen: false);
 
     if (_isLogin()) {
+      await auth.signup(
+        _authData['email']!,
+        _authData['password']!,
+      );
       //login
     } else {
       //registrar
+      await auth.signup(
+        _authData['email']!,
+        _authData['password']!,
+      );
     }
-
+// _formKey.currentState?.save();
     setState(() => _isLoading = false);
   }
 
@@ -60,7 +69,7 @@ class _AuthFormState extends State<AuthForm> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Container(
         padding: const EdgeInsets.all(16),
-        height: 320,
+        height: _isLogin() ? 320 : 400,
         width: deviceSize.width * 0.75,
         child: Form(
             key: _formKey,
@@ -70,6 +79,7 @@ class _AuthFormState extends State<AuthForm> {
                   decoration: const InputDecoration(labelText: 'Email'),
                   keyboardType: TextInputType.emailAddress,
                   onSaved: (email) => _authData['email'] = email ?? '',
+                  // ignore: no_leading_underscores_for_local_identifiers
                   validator: (_email) {
                     final email = _email ?? '';
                     if (email.trim().isEmpty || !email.contains('@')) {
@@ -80,8 +90,11 @@ class _AuthFormState extends State<AuthForm> {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Senha'),
-                  keyboardType: TextInputType.visiblePassword,
+                  keyboardType: TextInputType.emailAddress,
+                  obscureText: true,
+                  controller: _passwordController,
                   onSaved: (password) => _authData['password'] = password ?? '',
+                  // ignore: no_leading_underscores_for_local_identifiers
                   validator: (_password) {
                     final password = _password ?? '';
                     if (password.isEmpty || password.length < 5) {
@@ -94,12 +107,11 @@ class _AuthFormState extends State<AuthForm> {
                   TextFormField(
                     decoration:
                         const InputDecoration(labelText: 'Confirmar Senha'),
-                    keyboardType: TextInputType.visiblePassword,
+                    keyboardType: TextInputType.emailAddress,
                     obscureText: true,
-                    onSaved: (password) =>
-                        _authData['password'] = password ?? '',
-                    validator: _authMode == AuthMode.login
+                    validator: _isLogin()
                         ? null
+                        // ignore: no_leading_underscores_for_local_identifiers
                         : (_password) {
                             final password = _password ?? '';
                             if (password != _passwordController.text) {
