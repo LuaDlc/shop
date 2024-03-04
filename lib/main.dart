@@ -57,6 +57,6 @@ class MyApp extends StatelessWidget {
   }
 }
 /*
-main
-
+auth_exceptions -> par converter os erros q vem do firebase
+auth.dart -> models
 */
