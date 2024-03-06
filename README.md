@@ -39,4 +39,7 @@ A new Flutter project.
 - Tela auth usando cascaste operator
 - Gerenciando token: Adicionando os parametros necessario para adquirir o token 
 - Usando ProxyProvider para compartilhar o token. Neste caso em especifico ele serviu caso precise depender de apenas um Provider
+- Aplicando token em todas as requisiçoes: atualizar, deletar e adicionar produto na lista. Adicionar e remover de favoritos. Usar reversed para que a lista de pedidos fique do mais recente ao mais antigo pedido
+_items = items.reversed
+        .toList();
 
