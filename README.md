@@ -37,5 +37,6 @@ A new Flutter project.
 
 ** Autenticação com Firebase **
 - Tela auth usando cascaste operator
-
+- Gerenciando token: Adicionando os parametros necessario para adquirir o token 
+- Usando ProxyProvider para compartilhar o token. Neste caso em especifico ele serviu caso precise depender de apenas um Provider
 
