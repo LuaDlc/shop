@@ -6,6 +6,32 @@ import 'package:shop/exceptions/auth_exceptions.dart';
 import 'package:shop/utils/constants.dart';
 
 class Auth with ChangeNotifier {
+  //aqui abaixo tudo que é requisitado para o token
+  String? _token;
+  String? _email;
+  String? _uid;
+  DateTime? _expiryDate;
+
+  bool get isAuth {
+    final isValid = _expiryDate?.isAfter(DateTime.now()) ??
+        false; //para saber se token esta valido ou expirou, se esta no futuro retorna falso
+    return _token != null &&
+        isValid; //se token foi setado(nao é null) e isValid é true
+    //pra saber se o usuario esta autenticado
+  }
+
+  String? get token {
+    return isAuth ? _token : null;
+  }
+
+  String? get email {
+    return isAuth ? _email : null;
+  }
+
+  String? get uid {
+    return isAuth ? _uid : null;
+  }
+
   Future<void> _authenticate(
       String email, String password, String urlFragment) async {
     final url =
@@ -23,8 +49,21 @@ class Auth with ChangeNotifier {
 
     if (body['error'] != null) {
       throw AuthExceptions(body['error']['message']);
+    } else {
+      //se nao tiver erro, salvo essas informacoes, pelo body e as chaves do firebase
+      _token = body['idToken'];
+      _email = body['email'];
+      _uid = body['localId'];
+
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(body['expiresIn']),
+
+          //pega a data atual e adiciona o expiresIns(segundos) e assim vai saber quando o token fica invalido
+        ),
+      );
+      notifyListeners();
     }
-    print(body);
   }
 
   Future<void> signup(String email, String password) async {
