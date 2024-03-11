@@ -9,13 +9,17 @@ import 'package:shop/utils/constants.dart';
 class ProductList with ChangeNotifier {
   //final _baseUrl = Constants.productBaseUrl;
   final String _token;
+  final String _userId;
   List<Product> _items = [];
 
   List<Product> get items => [..._items];
   List<Product> get favoriteItems =>
       _items.where((prod) => prod.isFavorite).toList();
 
-  ProductList(this._token, this._items);
+  ProductList(
+      [this._token = '',
+      this._userId = '',
+      this._items = const []]); //inicializados como parametros opcionais
 
   int get itemsCount {
     return _items.length;
@@ -29,8 +33,19 @@ class ProductList with ChangeNotifier {
     );
 
     if (response.body == 'null') return;
+    final favResponse = await http.put(
+      Uri.parse(
+          '${Constants.userFavoritesUrl}/$_userId.json?auth=$_token'), //requisicao para obter os favoritos
+    );
+
+    Map<String, dynamic> favData = favResponse.body == 'null'
+        ? {}
+        : jsonDecode(favResponse.body); //pegando os dados de favoritos
+
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
+      //saber se o prod esta favorito ou nao
+      final isFavorite = favData[productId] ?? false;
       _items.add(
         Product(
           id: productId,
@@ -38,6 +53,7 @@ class ProductList with ChangeNotifier {
           description: productData['description'],
           price: productData['price'],
           imageUrl: productData['imageUrl'],
+          isFavorite: isFavorite,
         ),
       );
     });
