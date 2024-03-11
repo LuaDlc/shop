@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProxyProvider<Auth, OrderList>(
             update: (ctx, auth, previous) {
-              return OrderList(auth.token ?? '', previous?.items ?? []);
+              return OrderList(
+                  auth.token ?? '', auth.userId ?? '', previous?.items ?? []);
             },
             create: (_) =>
                 OrderList()), //ja nao precisa passar o valores default, pois ja tem no construtor
