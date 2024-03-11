@@ -9,7 +9,7 @@ class Auth with ChangeNotifier {
   //aqui abaixo tudo que é requisitado para o token
   String? _token;
   String? _email;
-  String? _uid;
+  String? _userId;
   DateTime? _expiryDate;
 
   bool get isAuth {
@@ -28,8 +28,8 @@ class Auth with ChangeNotifier {
     return isAuth ? _email : null;
   }
 
-  String? get uid {
-    return isAuth ? _uid : null;
+  String? get userId {
+    return isAuth ? _userId : null;
   }
 
   Future<void> _authenticate(
@@ -53,7 +53,7 @@ class Auth with ChangeNotifier {
       //se nao tiver erro, salvo essas informacoes, pelo body e as chaves do firebase
       _token = body['idToken'];
       _email = body['email'];
-      _uid = body['localId'];
+      _userId = body['localId'];
 
       _expiryDate = DateTime.now().add(
         Duration(

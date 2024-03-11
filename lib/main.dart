@@ -64,6 +64,11 @@ class MyApp extends StatelessWidget {
   }
 }
 /*
-auth_exceptions -> par converter os erros q vem do firebase
-auth.dart -> models
+
+auth.dart -> userId
+product -> models //put pra substituir a informacao, mandando apenas o valor true or false
+product_grid_items -> componentes
+constants
+prodcut list -> models
+
 */

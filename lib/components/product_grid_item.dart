@@ -15,7 +15,7 @@ class ProductGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context, listen: true);
+    final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false); //para pegar o token
     return ClipRRect(
@@ -26,7 +26,10 @@ class ProductGridItem extends StatelessWidget {
             leading: Consumer<Product>(
               builder: (ctx, product, _) => IconButton(
                   onPressed: () {
-                    product.toggleFavorite(auth.token ?? '');
+                    product.toggleFavorite(
+                      auth.token ?? '',
+                      auth.userId ?? '',
+                    );
                   },
                   icon: Icon(
                     product.isFavorite
@@ -42,7 +45,7 @@ class ProductGridItem extends StatelessWidget {
             trailing: IconButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: const Text('Produdo adicionado com sucesso!'),
+                    content: const Text('Produto adicionado com sucesso!'),
                     duration: const Duration(seconds: 2),
                     action: SnackBarAction(
                         label: 'DESFAZER',
