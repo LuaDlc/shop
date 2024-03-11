@@ -1,8 +1,8 @@
 class Constants {
   static const productBaseUrl =
       'https://shop-lua-default-rtdb.firebaseio.com/products';
-  static const userFavoriteUrl =
-      'https://shop-lua-default-rtdb.firebaseio.com/userFavorite';
+  static const userFavoritesUrl =
+      'https://shop-lua-default-rtdb.firebaseio.com/userFavorites';
   static const orderBaseUrl =
       'https://shop-lua-default-rtdb.firebaseio.com/orders';
   static const webApiKey =

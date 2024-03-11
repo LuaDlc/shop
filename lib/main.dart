@@ -28,16 +28,21 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => Auth()),
         ChangeNotifierProxyProvider<Auth, ProductList>(
           //usando o proxy pq dependo de um unico provider(auth)
-          create: (_) => ProductList('', []),
+          create: (_) => ProductList(),
           update: (context, auth, previous) {
-            return ProductList(auth.token ?? '', previous?.items ?? []);
+            return ProductList(
+              auth.token ?? '',
+              auth.userId ?? '',
+              previous?.items ?? [],
+            );
           },
         ),
         ChangeNotifierProxyProvider<Auth, OrderList>(
             update: (ctx, auth, previous) {
               return OrderList(auth.token ?? '', previous?.items ?? []);
             },
-            create: (_) => OrderList('', [])),
+            create: (_) =>
+                OrderList()), //ja nao precisa passar o valores default, pois ja tem no construtor
         ChangeNotifierProvider(create: (_) => Cart()),
       ],
       child: MaterialApp(
@@ -65,10 +70,6 @@ class MyApp extends StatelessWidget {
 }
 /*
 
-auth.dart -> userId
-product -> models //put pra substituir a informacao, mandando apenas o valor true or false
-product_grid_items -> componentes
-constants
-prodcut list -> models
+
 
 */
