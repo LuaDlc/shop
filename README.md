@@ -43,3 +43,6 @@ A new Flutter project.
 _items = items.reversed
         .toList();
 
+- Persistindo os dados do login do usuário com o token dentro do limite, usando o shared preference, mas pode ser hive também
+shared trabalha com chave valor, recuperando as informacoes persistidas no dispositivo
+

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop/data/store.dart';
 import 'package:shop/exceptions/auth_exceptions.dart';
 import 'package:shop/utils/constants.dart';
 
@@ -64,6 +65,14 @@ class Auth with ChangeNotifier {
           //pega a data atual e adiciona o expiresIns(segundos) e assim vai saber quando o token fica invalido
         ),
       );
+      Store.saveMap('userData', {
+        //sa;vando os dados com o store
+        'token': _token,
+        'email': _email,
+        'userId': _userId,
+        'expiryDate': _expiryDate!.toIso8601String(),
+      });
+
       _autoLogout();
       notifyListeners();
     }
@@ -75,6 +84,28 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     return _authenticate(email, password, 'signInWithPassword');
+  }
+
+  //recuperando os dados para fazer o login automatico
+
+  Future<void> tryAutoLogin() async {
+    //verificacoes pra saber se vai tentar fazer o autologin
+    //se estive autenticado
+    if (isAuth) return;
+
+    final userData = await Store.getMap('userData');
+    if (userData.isEmpty) return; // se userdata vazio sai;
+
+    final expiryDate = DateTime.parse(userData['expiryDate']);
+    if (expiryDate.isBefore(DateTime.now())) return;
+
+    //entao restaura os dados
+    _token = userData['token'];
+    _email = userData['email'];
+    _expiryDate = expiryDate;
+
+    _autoLogout();
+    notifyListeners();
   }
 
   void logout() {
