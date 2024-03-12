@@ -46,4 +46,6 @@ _items = items.reversed
 - Persistindo os dados do login do usuário com o token dentro do limite, usando o shared preference, mas pode ser hive também
 shared trabalha com chave valor, recuperando as informacoes persistidas no dispositivo
 
+- Aplicadas regras no realtime dataBase para restringir o que cada usuario pode ler ou editar de acordo com suas permissoes
+
 
