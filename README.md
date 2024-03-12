@@ -49,3 +49,7 @@ shared trabalha com chave valor, recuperando as informacoes persistidas no dispo
 - Aplicadas regras no realtime dataBase para restringir o que cada usuario pode ler ou editar de acordo com suas permissoes
 
 
+ANIMACOES
+
+- Usando classe Ticker, que chama funcoes callback a cada frame da animação, sejam em 60 frames por segundos ou dependendo do tempo da sua animacao
+
