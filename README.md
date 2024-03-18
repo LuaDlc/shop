@@ -52,4 +52,7 @@ shared trabalha com chave valor, recuperando as informacoes persistidas no dispo
 ANIMACOES
 
 - Usando classe Ticker, que chama funcoes callback a cada frame da animação, sejam em 60 frames por segundos ou dependendo do tempo da sua animacao
+-Usando animacoes como: SlideTransition, FadeTransition
+Com o FadeTransition, a transicao acontece mudando a opacidade do widget, de 0 para 1
+Com o SlideTransition, ele faz um slide para transicionar conforme muda a opacidade
 
