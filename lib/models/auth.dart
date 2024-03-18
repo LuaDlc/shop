@@ -35,7 +35,7 @@ class Auth with ChangeNotifier {
     return isAuth ? _userId : null;
   }
 
-  Future<void> _authenticate(
+  Future<void> authenticate(
       String email, String password, String urlFragment) async {
     final url =
         'https://identitytoolkit.googleapis.com/v1/accounts:$urlFragment?key=${Constants.webApiKey}';
@@ -79,11 +79,11 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> signup(String email, String password) async {
-    return _authenticate(email, password, 'signUp');
+    return authenticate(email, password, 'signUp');
   }
 
   Future<void> login(String email, String password) async {
-    return _authenticate(email, password, 'signInWithPassword');
+    return authenticate(email, password, 'signInWithPassword');
   }
 
   //recuperando os dados para fazer o login automatico

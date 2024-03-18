@@ -48,7 +48,6 @@ class _AuthFormState extends State<AuthForm>
       curve: Curves.linear,
     ));
     //chamando os et pra alterar o estado do componente
-    _heightAnimation?.addListener(() => setState(() {}));
   }
 
   @override
@@ -130,11 +129,17 @@ class _AuthFormState extends State<AuthForm>
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        //height: _isLogin() ? 310 : 400,
-        height: _heightAnimation?.value.height ?? (_isLogin() ? 310 : 400),
-        width: deviceSize.width * 0.75,
+      child: AnimatedBuilder(
+        animation: _heightAnimation!,
+        builder: (ctx, childForm) => Container(
+          //sempre que o _heightAnimation mudar, o builder é chamado
+          //apenas o containeré reconstruido
+          padding: const EdgeInsets.all(16),
+          //height: _isLogin() ? 310 : 400,
+          height: _heightAnimation?.value.height ?? (_isLogin() ? 310 : 400),
+          width: deviceSize.width * 0.75,
+          child: childForm, //passa o childForm como parametro para o form
+        ),
         child: Form(
           key: _formKey,
           child: Column(
@@ -145,8 +150,13 @@ class _AuthFormState extends State<AuthForm>
                 onSaved: (email) => _authData['email'] = email ?? '',
                 validator: (_email) {
                   final email = _email ?? '';
-                  if (email.trim().isEmpty || !email.contains('@')) {
-                    return 'Informe um e-mail válido.';
+                  if (email.trim().isEmpty || email == '') {
+                    return 'O email é obrigatório';
+                  }
+                  final emailRegex =
+                      RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                  if (!emailRegex.hasMatch(email)) {
+                    return 'O email é inválido';
                   }
                   return null;
                 },
@@ -159,8 +169,17 @@ class _AuthFormState extends State<AuthForm>
                 onSaved: (password) => _authData['password'] = password ?? '',
                 validator: (_password) {
                   final password = _password ?? '';
-                  if (password.isEmpty || password.length < 5) {
-                    return 'Informe uma senha válida';
+                  if (password == '' || password.isEmpty) {
+                    return 'A senha é obrigatoria';
+                  }
+
+                  if (password.length < 6) {
+                    return 'A senha deve conter 6 ou mais caracteres';
+                  }
+
+                  final alphaNumeric = RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9]).+$');
+                  if (!alphaNumeric.hasMatch(password)) {
+                    return 'A senha deve ser alfanumerica';
                   }
                   return null;
                 },
