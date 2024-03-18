@@ -55,4 +55,4 @@ ANIMACOES
 -Usando animacoes como: SlideTransition, FadeTransition
 Com o FadeTransition, a transicao acontece mudando a opacidade do widget, de 0 para 1
 Com o SlideTransition, ele faz um slide para transicionar conforme muda a opacidade
-
+- FadeInImage: adiciona um fade no carregamento das imagens, entao é possivel adicionar uma imagem padrao para mostrar durante o carregamento das imagens.
