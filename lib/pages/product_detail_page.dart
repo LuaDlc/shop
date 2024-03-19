@@ -21,10 +21,14 @@ class ProductDetailPage extends StatelessWidget {
           children: [
             SizedBox(
               height: 300,
-              width: 300,
-              child: Image.network(
-                product.imageUrl,
-                fit: BoxFit.cover,
+              width: double.infinity,
+              child: Hero(
+                //hero animation faz a imagem crescer na transicao de tela
+                tag: product.id,
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
