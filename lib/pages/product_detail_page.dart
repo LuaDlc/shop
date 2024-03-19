@@ -20,13 +20,32 @@ class ProductDetailPage extends StatelessWidget {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(product.name),
-              background: Hero(
-                tag: product.id,
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              background: Stack(
+                  fit: StackFit.expand, //serve para expandir a imagem
+                  children: [
+                    Hero(
+                      tag: product.id,
+                      child: Image.network(
+                        product.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const DecoratedBox(
+                        //decorationbox para colocar um gradiente e melhorar a vizualizacao do texto
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment(0, 0.8),
+                                end: Alignment(0, 0),
+                                colors: [
+                          Color.fromRGBO(
+                            0,
+                            0,
+                            0,
+                            0.6,
+                          ),
+                          Color.fromRGBO(0, 0, 0, 0)
+                        ])))
+                  ]),
             ),
           ),
           SliverList(
