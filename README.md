@@ -1,10 +1,7 @@
 # shop
 
-A new Flutter project.
 
-## Getting Started
-
- Uma  loja que  Provider como DB
+ ## Uma  loja que  Provider como DB
 
 - Modelo de produto criado
 - Componente Grid de produtos, que é o componente inicial que irá buildar todos os produtos do modelo de produto
@@ -15,7 +12,7 @@ A new Flutter project.
 - Integrando Provider em carrinho de compras
 
 - Navegação com Drawer
-** Trabalhando com formulários **
+# Trabalhando com formulários
 - integrando Provider para remover, adicionar produtos na loja
 - Usando SnackBar
 - Usando o Form do Flutter
@@ -49,10 +46,12 @@ shared trabalha com chave valor, recuperando as informacoes persistidas no dispo
 - Aplicadas regras no realtime dataBase para restringir o que cada usuario pode ler ou editar de acordo com suas permissoes
 
 
-ANIMACOES
+# ANIMACOES
 
 - Usando classe Ticker, que chama funcoes callback a cada frame da animação, sejam em 60 frames por segundos ou dependendo do tempo da sua animacao
 -Usando animacoes como: SlideTransition, FadeTransition
 Com o FadeTransition, a transicao acontece mudando a opacidade do widget, de 0 para 1
 Com o SlideTransition, ele faz um slide para transicionar conforme muda a opacidade
 - FadeInImage: adiciona um fade no carregamento das imagens, entao é possivel adicionar uma imagem padrao para mostrar durante o carregamento das imagens.
+- Finalizando a construcao do app...
+Será em breve melhorado!
