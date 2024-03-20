@@ -10,6 +10,7 @@ import 'package:shop/pages/product_detail_page.dart';
 import 'package:shop/pages/product_form_page.dart';
 import 'package:shop/pages/products_page.dart';
 import 'package:shop/utils/app_routes.dart';
+import 'package:shop/utils/custom_route.dart';
 
 import 'pages/auth_or_home_page.dart';
 
@@ -50,6 +51,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
+            pageTransitionsTheme: PageTransitionsTheme(builders: {
+              TargetPlatform.iOS: CustomPageTransitionsBuilder(),
+              TargetPlatform.android: CustomPageTransitionsBuilder(),
+              //agr ao transicionar de tela, ele faz um fade ao inves de um slide
+            }),
             appBarTheme: const AppBarTheme(color: Colors.purple),
             hintColor: Colors.red,
             primarySwatch: Colors.purple,
