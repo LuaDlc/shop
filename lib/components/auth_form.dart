@@ -16,6 +16,7 @@ class _AuthFormState extends State<AuthForm>
     with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _obscureText = true;
 
   bool _isLoading = false;
   AuthMode _authMode = AuthMode.login;
@@ -41,9 +42,9 @@ class _AuthFormState extends State<AuthForm>
     ); //vscin ;e a propria classe implementa e tem os metodos necessarios
     //para se tornar um ticker
     // muda a opacidade conforme a animacao de 0 a 1
-    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    _opacityAnimation = Tween(begin: 0.0, end: 2.0).animate(CurvedAnimation(
       parent: _controller!,
-      curve: Curves.linear,
+      curve: Curves.easeInOut,
     ));
 
     _slideAnimation = Tween<Offset>(
@@ -51,7 +52,7 @@ class _AuthFormState extends State<AuthForm>
       end: const Offset(0, 0),
     ).animate(CurvedAnimation(
       parent: _controller!,
-      curve: Curves.linear,
+      curve: Curves.easeInOut,
     ));
   }
 
@@ -126,6 +127,12 @@ class _AuthFormState extends State<AuthForm>
     setState(() => _isLoading = false);
   }
 
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -137,9 +144,9 @@ class _AuthFormState extends State<AuthForm>
       child: AnimatedContainer(
         //jeito mais simples e facil de fazer animacao
         duration: const Duration(milliseconds: 300),
-        //apenas o containeré reconstruido
-        curve: Curves.easeIn,
-        padding: const EdgeInsets.all(16),
+        //apenas o container é reconstruido
+        curve: Curves.bounceInOut,
+        padding: const EdgeInsets.all(12),
         //height: _isLogin() ? 310 : 400,
         height: (_isLogin() ? 310 : 400),
         width: deviceSize.width * 0.75,
@@ -166,9 +173,22 @@ class _AuthFormState extends State<AuthForm>
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Senha'),
+                focusNode: FocusNode(),
+                decoration: InputDecoration(
+                  labelText: 'Senha',
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    child: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                    ),
+                  ),
+                ),
                 keyboardType: TextInputType.emailAddress,
-                obscureText: true,
+                obscureText: _obscureText,
                 controller: _passwordController,
                 onSaved: (password) => _authData['password'] = password ?? '',
                 validator: (_password) {
@@ -188,6 +208,7 @@ class _AuthFormState extends State<AuthForm>
                   return null;
                 },
               ),
+
               // if (_isSignup())
               AnimatedContainer(
                 constraints: BoxConstraints(
@@ -200,8 +221,21 @@ class _AuthFormState extends State<AuthForm>
                   child: SlideTransition(
                     position: _slideAnimation!,
                     child: TextFormField(
-                      decoration:
-                          const InputDecoration(labelText: 'Confirmar Senha'),
+                      decoration: InputDecoration(
+                        labelText: 'Confirmar Senha',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                          child: Icon(
+                            _obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
+                      ),
                       keyboardType: TextInputType.emailAddress,
                       obscureText: true,
                       validator: _isLogin()
@@ -240,7 +274,7 @@ class _AuthFormState extends State<AuthForm>
               TextButton(
                 onPressed: _switchAuthMode,
                 child: Text(
-                  _isLogin() ? 'DESEJA REGISTRAR?' : 'JÁ POSSUI CONTA?',
+                  _isLogin() ? 'REGISTRAR' : 'JÁ POSSUI CONTA?',
                 ),
               ),
             ],
