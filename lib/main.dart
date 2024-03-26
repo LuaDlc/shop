@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             appBarTheme: const AppBarTheme(color: Colors.purple),
             hintColor: Colors.red,
             primarySwatch: Colors.purple,
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink.shade500),
             useMaterial3: true,
             fontFamily: 'Lato',
           ),
