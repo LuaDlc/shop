@@ -32,19 +32,20 @@ class AuthPage extends StatelessWidget {
                       ..translate(-10.0), //cascade operator
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange.shade900,
+                        color: Colors.indigo.shade800,
                         boxShadow: const [
                           BoxShadow(
                               blurRadius: 8,
+                              blurStyle: BlurStyle.inner,
                               color: Colors.black26,
                               offset: Offset(0, 2))
                         ]),
-                    child: const Text(
+                    child: Text(
                       'Loja do Bug',
                       style: TextStyle(
                           fontSize: 45,
                           fontFamily: 'Anton',
-                          color: Colors.white),
+                          color: Colors.pink.shade200),
                     ),
                   ),
                   const AuthForm()

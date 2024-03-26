@@ -156,7 +156,8 @@ class _AuthFormState extends State<AuthForm>
           child: Column(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'E-mail'),
+                decoration: const InputDecoration(
+                    labelText: 'E-mail', prefixIcon: Icon(Icons.email_sharp)),
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (email) => _authData['email'] = email ?? '',
                 validator: (_email) {
@@ -176,6 +177,7 @@ class _AuthFormState extends State<AuthForm>
                 focusNode: FocusNode(),
                 decoration: InputDecoration(
                   labelText: 'Senha',
+                  prefixIcon: const Icon(Icons.lock),
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {
@@ -223,6 +225,7 @@ class _AuthFormState extends State<AuthForm>
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Confirmar Senha',
+                        prefixIcon: const Icon(Icons.lock),
                         suffixIcon: GestureDetector(
                           onTap: () {
                             setState(() {
@@ -237,7 +240,7 @@ class _AuthFormState extends State<AuthForm>
                         ),
                       ),
                       keyboardType: TextInputType.emailAddress,
-                      obscureText: true,
+                      obscureText: _obscureText,
                       validator: _isLogin()
                           ? null
                           : (_password) {
