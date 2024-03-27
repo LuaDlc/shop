@@ -19,10 +19,10 @@ class ProductGridItem extends StatelessWidget {
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false); //para pegar o token
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(5),
       child: GridTile(
         footer: GridTileBar(
-            backgroundColor: Colors.black38,
+            backgroundColor: Colors.brown.withOpacity(0.5),
             leading: Consumer<Product>(
               builder: (ctx, product, _) => IconButton(
                   onPressed: () {
@@ -35,14 +35,23 @@ class ProductGridItem extends StatelessWidget {
                     product.isFavorite
                         ? Icons.favorite
                         : Icons.favorite_border_outlined,
-                    color: Theme.of(context).hintColor,
+                    color: Theme.of(context).canvasColor,
+                    size: 20,
                   )),
             ),
-            title: Text(
-              product.name,
-              textAlign: TextAlign.center,
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  product.name,
+                  textAlign: TextAlign.justify,
+                  maxLines: 2,
+                ),
+              ],
             ),
             trailing: IconButton(
+                iconSize: 20,
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: const Text('Produto adicionado com sucesso!'),
@@ -57,7 +66,7 @@ class ProductGridItem extends StatelessWidget {
                 },
                 icon: Icon(
                   Icons.shopping_cart,
-                  color: Theme.of(context).hintColor,
+                  color: Theme.of(context).canvasColor,
                 ))),
         child: GestureDetector(
           child: Hero(

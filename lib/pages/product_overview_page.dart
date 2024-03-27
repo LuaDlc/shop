@@ -55,7 +55,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
               ),
               const PopupMenuItem(
                 value: FilterOptions.all, //apenas o enum do popup
-                child: Text('todos'),
+                child: Text('Todos'),
               ),
             ],
             onSelected: (FilterOptions selectedvalue) {
@@ -75,7 +75,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
                   Navigator.of(context).pushNamed(AppRoutes.cart);
                 },
                 icon: const Icon(
-                  Icons.shopping_cart,
+                  Icons.shopping_cart_outlined,
                   color: Colors.white,
                 ),
               ),
