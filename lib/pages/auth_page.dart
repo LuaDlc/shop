@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/components/auth_form.dart';
+import 'package:shop/utils/app_routes.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -47,7 +49,50 @@ class AuthPage extends StatelessWidget {
                           color: Colors.white),
                     ),
                   ),
-                  const AuthForm()
+                  const AuthForm(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        // Navigator.of(context).pushNamed(AppRoutes.resetPassword);
+                      },
+                      child: const Text('Esqueci a senha')),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: RichText(
+                          text: TextSpan(
+                              text: 'Ao se cadastrar você concorda com nossos ',
+                              style: const TextStyle(color: Colors.white),
+                              children: [
+                            TextSpan(
+                                text: 'Termos de uso',
+                                style: const TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => Navigator.of(context)
+                                      .pushNamed(AppRoutes
+                                          .termsOfUse) //print('cliclou nos termos de uso'),
+                                ),
+                            const TextSpan(text: ' e '),
+                            TextSpan(
+                                text: 'Política de privacidade',
+                                style: const TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => Navigator.of(context)
+                                      .pushNamed(AppRoutes.policyPrivacy)
+                                // print('cliclou na política de privacidade'),
+                                //modular ou navigator.route para pagina de politicas
+                                ),
+                          ])),
+                    ),
+                  ),
                 ],
               ),
             ),
