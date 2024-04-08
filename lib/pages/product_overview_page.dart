@@ -38,6 +38,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple[400],
         title: const Text(
           'Minha loja',
           style: TextStyle(color: Colors.white),
@@ -91,6 +92,16 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
               _showFavoriteOnly,
             ),
       drawer: const AppDrawer(),
+      bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Colors.white,
+          backgroundColor: Colors.deepPurple[300],
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.stars_rounded), label: 'Destaques'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.list_outlined), label: 'Categorias'),
+          ]),
     );
   }
 }
