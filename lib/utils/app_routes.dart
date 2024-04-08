@@ -5,4 +5,6 @@ class AppRoutes {
   static const orders = '/orders';
   static const products = '/products';
   static const productForm = '/product-form';
+  static const termsOfUse = '/terms-of-use';
+  static const policyPrivacy = '/policy-privacy';
 }
